@@ -1,0 +1,11 @@
+FROM denismakogon/ffmpeg-alpine:4.0-buildstage as build-stage
+# copy code
+ADD . /untrunc-src
+WORKDIR /untrunc-src
+
+# build untrunc
+#RUN /usr/bin/g++ -o untrunc *.cpp -lavformat -lavcodec -lavutil
+RUN /usr/bin/make FF_VER=$FF_VER && strip untrunc
+
+# execution
+ENTRYPOINT ["/bin/untrunc"]
